@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testSuite id="70c5d89f-cb36-459a-9189-4a4444f1a979" name="https://api.github.com Test Suite" xmlns:con="http://eviware.com/soapui/config">
+    <con:settings/>
+    <con:savedRecentRuns>1</con:savedRecentRuns>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="3a8007f8-3c55-4306-b9fa-e03ac3754bf7" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="https://api.github.com Test Case 1" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:savedRecentRuns>1</con:savedRecentRuns>
+      <con:testStep type="restrequest" name="GET_Auth" id="cdb02b21-98bd-4f26-9050-66bc5d30e642">
+        <con:settings/>
+        <con:config service="https://api.github.com" resourcePath="" methodName="" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="GET_Auth" id="6c9ce128-79a9-4e2e-b37f-bb2cbc221bad" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>https://api.github.com/user/emails</con:endpoint>
+            <con:request/>
+            <con:originalUri>https://api.github.com/</con:originalUri>
+            <con:credentials>
+              <con:selectedAuthProfile>Auth profile</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters/>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="POST_Add SSH Key" id="9bd0e160-88ab-40e7-9f07-72707c85ba20">
+        <con:settings/>
+        <con:config service="https://api.github.com 1" resourcePath="/user/keys" methodName="Keys" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="POST_Add SSH Key" id="1dbc409c-168b-4cf2-809f-9166e4b11277" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>https://api.github.com</con:endpoint>
+            <con:request>{"title": "TestKey",
+"key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqgDAhiT4DnhakUd+eRVhmdzumTx0J+r+ilaoYmAvir",
+"read_only": "true"
+}</con:request>
+            <con:originalUri>https://api.github.com/user/keys</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="b7dd940b-e14f-4e12-a3cd-ee0a47e0b342" name="Valid HTTP Status Codes">
+              <con:settings/>
+              <con:configuration>
+                <codes>201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:selectedAuthProfile>Auth profile</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters/>
+            <con:parameterOrder/>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="transfer" name="Property Transfer" id="e5f5e8e0-e407-40bd-87b2-26219a5fa9a4">
+        <con:settings/>
+        <con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false">
+            <con:name>Property Transfer - Delete</con:name>
+            <con:sourceType>Response</con:sourceType>
+            <con:sourceStep>POST_Add SSH Key</con:sourceStep>
+            <con:sourcePath/>
+            <con:targetType>keyID</con:targetType>
+            <con:targetStep>POST_Delete</con:targetStep>
+            <con:targetPath/>
+            <con:type>JSONPATH</con:type>
+            <con:targetTransferType>JSONPATH</con:targetTransferType>
+            <con:upgraded>true</con:upgraded>
+          </con:transfers>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="POST_Delete" id="f9badc13-4365-40c1-bdcc-7c1fb3939d84">
+        <con:settings/>
+        <con:config service="https://api.github.com/user/keys" resourcePath="/user/key/{keyID}" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="POST_Delete" id="9bf83fe9-d72f-4171-9f3a-79d675bfa748" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>https://api.github.com</con:endpoint>
+            <con:request/>
+            <con:originalUri>https://api.github.com/user/keys/user/key/</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="4c32cd6a-6d1e-4e7e-8549-bf44d58232ce" name="Valid HTTP Status Codes">
+              <con:settings/>
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="Response SLA Assertion" id="f180a7d1-bb23-4a19-af2e-9a29a7ee2a74" name="Response SLA">
+              <con:configuration>
+                <SLA>200</SLA>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:selectedAuthProfile>Auth profile</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters>
+              <con:entry key="keyID" value="{&quot;id&quot;:52646723,&quot;key&quot;:&quot;ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqgDAhiT4DnhakUd+eRVhmdzumTx0J+r+ilaoYmAvir&quot;,&quot;url&quot;:&quot;https://api.github.com/user/keys/52646723&quot;,&quot;title&quot;:&quot;TestKey&quot;,&quot;verified&quot;:true,&quot;created_at&quot;:&quot;2021-05-04T06:38:41Z&quot;,&quot;read_only&quot;:false}"/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>keyID</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>9bd0e160-88ab-40e7-9f07-72707c85ba20</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
